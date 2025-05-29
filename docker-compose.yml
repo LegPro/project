@@ -1,5 +1,5 @@
 services:
-     install_app:
+     app:
         build: .
         ports: "8001:8080"
         depends_on:
@@ -10,7 +10,7 @@ services:
         DB_PASSWORD: admin1234
         DB_NAME: test
         volumes:
-          - my_tomcat_data: /var/lib/my_tom
+          - app-data: /var/lib/my_tom
         networks:
           - mynet
      db:
@@ -21,11 +21,11 @@ services:
          MYSQL_USER: admin
          MYSQL_PASSWORD: admin1234
          volumes:
-           - mysql_data: /var/lib/mysql
+           - db-data: /var/lib/mysql
          networks: 
            - mynet
 volumes:
-  mysql_data:
-  my_tomcat_data:
+  app-data:
+  db-data:
 networks:
   mynet:
