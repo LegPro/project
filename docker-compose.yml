@@ -1,31 +1,38 @@
+version: "3.8"
+
 services:
-     app:
-        build: .
-        ports: "8001:8080"
-        depends_on:
-          - db
-        environment:
-        DB_HOST: db
-        DB_USER: admin
-        DB_PASSWORD: admin1234
-        DB_NAME: test
-        volumes:
-          - app-data:/var/lib/my_tom
-        networks:
-          - mynet
-     db:
-         image: mysql:8.0
-         ports: "3306:3306"
-         MYSQL_ROOT_PASSWORD: admin1234
-         MYSQL_DATABASE: test
-         MYSQL_USER: admin
-         MYSQL_PASSWORD: admin1234
-         volumes:
-           - db-data:/var/lib/mysql
-         networks: 
-           - mynet
+  app:
+    build: .
+    ports:
+      - "8001:8080"
+    depends_on:
+      - db
+    environment:
+      DB_URL: jdbc:mysql://db:3306/test
+      DB_USER: admin
+      DB_PASS: admin1234
+    volumes:
+      - app-data:/var/lib/my_tom
+    networks:
+      - mynet
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin1234
+      MYSQL_DATABASE: test
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - mynet
+
 volumes:
   app-data:
   db-data:
+
 networks:
   mynet:
